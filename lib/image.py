@@ -3,7 +3,6 @@
 # @Time   : 2020/1/16 10:52
 # @Author : franswu
 
-import os
 from PIL import Image, ImageSequence
 
 
@@ -13,9 +12,14 @@ def get_xy_gray(pix, x, y):
 
 
 def get_average_gray(pix, offset_x, offset_y, width, height):
-    # print(offset_x, offset_y, width, height)
     return int(sum([get_xy_gray(pix, x + offset_x, y + offset_y) for x in range(width) for y in range(height)])
                / (width * height))
+
+
+def get_best_seg(width, height, nw, nh):
+    seg_w = int(width / nw)
+    seg_h = int(height / nh)
+    return int(width / seg_w), int(height / seg_h)
 
 
 class ImageUtil:
@@ -29,6 +33,7 @@ class ImageUtil:
     def seg_image(self, nw, nh):
         assert 1 <= nw <= self.width, '切割的数量必须大于等于1小于等于宽度'
         assert 1 <= nh <= self.height, '切割的数量必须大于等于1小于等于高度'
+        nw, nh = get_best_seg(self.width, self.height, nw, nh)
         seg_w = int(self.width / nw)
         seg_h = int(self.height / nh)
         result = list()
@@ -46,14 +51,13 @@ class GifUtil:
     def seg_image(self, nw, nh):
         results = list()
         for image in self.images:
-            # image.save(f'{os.path.abspath(os.path.dirname(__file__))}/tmp.png')
-            # image = Image.open(f'{os.path.abspath(os.path.dirname(__file__))}/tmp.png')
             image = image.convert('RGB')
             pix = image.load()
             width = image.size[0]
             height = image.size[1]
             assert 1 <= nw <= width, '切割的数量必须大于等于1小于等于宽度'
             assert 1 <= nh <= height, '切割的数量必须大于等于1小于等于高度'
+            nw, nh = get_best_seg(width, height, nw, nh)
             seg_w = int(width / nw)
             seg_h = int(height / nh)
             result = list()
@@ -72,6 +76,6 @@ if __name__ == '__main__':
     #     for line in img:
     #         print(line)
     im_util = ImageUtil(r'E:\picture\微信图片_20200116175102.jpg')
-    res = im_util.seg_image(50, 50)
+    res = im_util.seg_image(50, 25)
     for r in res:
         print(r)

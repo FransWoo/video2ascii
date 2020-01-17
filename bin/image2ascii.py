@@ -5,9 +5,9 @@
 
 import sys
 import os
+from argparse import ArgumentParser
 sys.path.append(f'{os.path.abspath(os.path.dirname(__file__))}/..')
 from lib.image import ImageUtil, GifUtil
-from argparse import ArgumentParser
 
 
 GRAY_STR = """@#$%MEWHXA8D4wp03u?7i{+tc*!<"~:,^`. """
@@ -33,8 +33,8 @@ def gif_main(path, nw, nh):
     util = GifUtil(path)
     gray_image_list = get_gray_str(util, nw, nh)
     for gray_image in gray_image_list:
-        for gray in gray_image:
-            print(gray)
+        os.system('cls')
+        print('\n'.join(gray_image), flush=True)
 
 
 if __name__ == '__main__':
