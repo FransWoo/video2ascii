@@ -8,17 +8,12 @@ import os
 from argparse import ArgumentParser
 sys.path.append(f'{os.path.abspath(os.path.dirname(__file__))}/..')
 from lib.video import VideoUtil
-from lib.image import GifUtil
-from bin.image2ascii import get_gray_str
+from bin.image2ascii import gif_main
 
 
 def main(path, nw, nh, step, duration):
     filename = VideoUtil(path).trans_gif(step, duration)
-    util = GifUtil(filename)
-    gray_image_list = get_gray_str(util, nw, nh)
-    for gray_image in gray_image_list:
-        os.system('cls')
-        print('\n'.join(gray_image), flush=True)
+    gif_main(filename, nw, nh)
 
 
 if __name__ == '__main__':

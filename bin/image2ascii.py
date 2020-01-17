@@ -42,7 +42,7 @@ if __name__ == '__main__':
     parser.add_argument('--path', type=str, required=True, help='图片路径')
     parser.add_argument('--nw', type=int, required=True, help='图片宽度分割数量')
     parser.add_argument('--nh', type=int, required=True, help='图片高度分割数量')
-    parser.add_argument('--gif', action='store_true', help='图片高度分割数量')
+    parser.add_argument('--gif', action='store_true', help='转化gif图')
     args = parser.parse_args()
     if args.gif:
         gif_main(args.path, args.nw, args.nh)
